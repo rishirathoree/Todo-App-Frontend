@@ -28,10 +28,8 @@ Once the server starts, open your browser and navigate to:
 http://localhost:5173
 ```
 
-(Port may vary depending on your setup.)
-
 ## Notes
 - Environment variables should be defined in a `.env` file if required.
-- Make sure the backend services (if any) are running before starting the frontend.
+- Make sure the backend services was running before starting the frontend.
 
 ---
