@@ -5,7 +5,6 @@ const initialState = {
     idleTime: 0,
     isStaySignedIn: false,
     popupTimer: 60,
-    authTiming: localStorage.getItem("authTiming") ? JSON.parse(localStorage.getItem("authTiming") as string) : null,
 };
 
 const timingSlice = createSlice({
@@ -30,9 +29,6 @@ const timingSlice = createSlice({
         resetPopup: (state) => {
             state.showPopup = false;
             state.popupTimer = 60;
-        },
-        setAuthTiming: (state, action) => {
-            state.authTiming = action.payload
         },
         increaseIdleTime: (state) => {
 
@@ -73,7 +69,6 @@ export const {
     decrementPopupTimer,
     resetPopup,
     increaseIdleTime,
-    setAuthTiming,
 } = timingSlice.actions;
 
 export default timingSlice.reducer;

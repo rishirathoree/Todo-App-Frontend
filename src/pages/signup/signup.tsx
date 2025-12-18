@@ -3,12 +3,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { signup } from "@/stores/slices/auth";
-import { setAuthTiming,  } from "@/stores/slices/timings";
+import { setIdleTime } from "@/stores/slices/timings";
 import { useAppDispatch, type RootState } from "@/stores/stores";
 import { GitBranch, Github } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link,  } from "react-router";
+import { Link, } from "react-router";
 import { toast } from "sonner";
 export default function Signup04() {
 
@@ -32,16 +32,10 @@ export default function Signup04() {
 
     const dispatch = useAppDispatch()
 
-    const handleSubmit = async() => {
+    const handleSubmit = async () => {
         dispatch(signup(create))
-        dispatch(setAuthTiming(Date.now()))
+        dispatch(setIdleTime(Date.now()))
     }
-
-    const { error } = useSelector((state:RootState)=>state.auth.auth)
-
-    useEffect(()=>{
-        toast.error("Something went wrong")
-    },[error])
 
     return (
         <div className="flex items-center justify-center min-h-screen mx-auto">

@@ -1,5 +1,6 @@
 import Api from "@/lib/axios.utils";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "sonner";
 
 const initialState = {
     auth: { pending: false, data: localStorage.getItem("auth") ? JSON.parse(localStorage.getItem("auth") as string) : null, error: null },
@@ -17,22 +18,23 @@ interface loginData {
     password: string;
 }
 
-
-export const signup = createAsyncThunk(
+export const signup = createAsyncThunk<any, signUpData, { rejectValue: { message: string } }>(
     "auth/signup",
-    async (data:signUpData , thunkAPI) => {
+    async (data, { rejectWithValue }) => {
         try {
             const response = await Api.post("/auth/create", data)
-            return response
-        } catch (error) {
-            return thunkAPI.rejectWithValue(error)
+            return response.data
+        } catch (error: any) {
+            return rejectWithValue({
+                message: error.response?.data?.message || "Signup failed"
+            })
         }
     }
 )
 
 export const login = createAsyncThunk(
     "auth/login",
-    async (data:loginData, thunkAPI) => {
+    async (data: loginData, thunkAPI) => {
         try {
             const response = await Api.post("/auth/login", data)
             return response
@@ -46,7 +48,7 @@ const authSlice = createSlice({
     name: "todos",
     initialState,
     reducers: {
-        logout : (state)=>{
+        logout: (state) => {
             state.auth.data = null
             localStorage.removeItem("auth")
             localStorage.removeItem("authTiming")
@@ -55,35 +57,43 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
 
-        // Signup Cases
-        .addCase(signup.pending, (state) => {
-            state.auth.pending = true
-        })
-        .addCase(signup.fulfilled, (state, action) => {
-            state.auth.data = action.payload
-            state.auth.error = null
-            localStorage.setItem("auth", JSON.stringify(action.payload.data?.user))
-            state.auth.pending = false
-        })
-        .addCase(signup.rejected, (state,) => {
-            state.auth.pending = false
-        })
+            // Signup Cases
+            .addCase(signup.pending, (state) => {
+                state.auth.pending = true
+            })
+            .addCase(signup.fulfilled, (state, action) => {
+                state.auth.data = action.payload
+                state.auth.error = null
+                console.log(action.payload)
+                localStorage.setItem("auth", JSON.stringify(action.payload?.user))
+                state.auth.pending = false
+            })
+            .addCase(signup.rejected, (state, action) => {
+                state.auth.pending = false
 
-        // Login Cases
-        .addCase(login.pending, (state) => {
-            state.auth.pending = true
-        })
-        .addCase(login.fulfilled, (state, action) => {
-            state.auth.pending = false
-            state.auth.data = action.payload
-            state.auth.error = null
-            localStorage.setItem("auth", JSON.stringify(action.payload.data?.user))
-        })
-        .addCase(login.rejected, (state,) => {
-            state.auth.pending = false
-        })
+                if (action.payload?.message) {
+                    toast.error(action.payload.message)
+                } else {
+                    toast.error(action.error.message || "Something went wrong")
+                }
+            })
+
+
+            // Login Cases
+            .addCase(login.pending, (state) => {
+                state.auth.pending = true
+            })
+            .addCase(login.fulfilled, (state, action) => {
+                state.auth.pending = false
+                state.auth.data = action.payload
+                state.auth.error = null
+                localStorage.setItem("auth", JSON.stringify(action.payload.data?.user))
+            })
+            .addCase(login.rejected, (state,) => {
+                state.auth.pending = false
+            })
     }
 });
 
-export const {logout,} = authSlice.actions
+export const { logout, } = authSlice.actions
 export default authSlice.reducer

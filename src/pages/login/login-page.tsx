@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { login } from "@/stores/slices/auth";
-import { setAuthTiming, } from "@/stores/slices/timings";
+import { setIdleTime } from "@/stores/slices/timings";
 import { useAppDispatch, type RootState } from "@/stores/stores";
 import { GitBranch, Github } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -36,7 +36,7 @@ export default function Login04() {
 
   const handleSubmit = async () => {
     dispatch(login(create))
-    dispatch(setAuthTiming(Date.now()))
+    dispatch(setIdleTime(Date.now()))
   }
 
   return (
