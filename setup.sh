@@ -10,6 +10,7 @@ echo "Running the app"
 
 npm run dev
 
+
 echo "Done"
 
 echo "Go to http://localhost:5173"
