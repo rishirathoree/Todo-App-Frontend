@@ -1,32 +1,29 @@
 import { useEffect } from "react";
-import { useAppDispatch, } from "@/stores/stores";
-import { increaseIdleTime,  } from "@/stores/slices/timings";
+import { useAppDispatch } from "@/stores/stores";
+import { increaseIdleTime } from "@/stores/slices/timings";
 
-const UseAcitivty = () => {
+const UseActivity = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const updateLastActivity = () => {
+    const handleActivity = () => {
       dispatch(increaseIdleTime());
     };
 
-    const events = [
-      "mousemove",
-      "mousedown",
-      "mouseup",
-    ];
+    const events = ["mousemove", "mousedown", "keydown", "scroll"];
 
     events.forEach((event) =>
-      window.addEventListener(event, updateLastActivity)
+      window.addEventListener(event, handleActivity)
     );
 
     return () => {
       events.forEach((event) =>
-        window.removeEventListener(event, updateLastActivity)
+        window.removeEventListener(event, handleActivity)
       );
     };
   }, [dispatch]);
-  return null
+
+  return null;
 };
 
-export default UseAcitivty;
+export default UseActivity;

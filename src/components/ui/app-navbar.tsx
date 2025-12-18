@@ -1,9 +1,5 @@
 import React, { useId } from "react";
-import {
-  Bell,
-  BrickWall,
-  Cog,
-  LogOutIcon,
+import { Bell,BrickWall,Cog,LogOutIcon,
   User,
   Users,
 } from "lucide-react";
@@ -27,6 +23,7 @@ import { useAppDispatch, } from "@/stores/stores";
 import { logout } from "@/stores/slices/auth";
 import TimerCalculator from "../timer-calculator";
 import { setIdleTime } from "@/stores/slices/timings";
+
 const Appnavbar: React.FC = () => {
 
   const dispatch = useAppDispatch()

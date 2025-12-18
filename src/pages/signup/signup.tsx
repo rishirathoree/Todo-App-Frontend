@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { signup } from "@/stores/slices/auth";
-import { setIdleTime } from "@/stores/slices/timings";
+import { setIdleTime, setInitialTime } from "@/stores/slices/timings";
 import { useAppDispatch, type RootState } from "@/stores/stores";
 import { GitBranch, Github } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -34,7 +34,7 @@ export default function Signup04() {
 
     const handleSubmit = async () => {
         dispatch(signup(create))
-        dispatch(setIdleTime(Date.now()))
+        dispatch(setInitialTime())
     }
 
     return (
