@@ -4,7 +4,7 @@ This project contains the frontend application.
 
 ## Prerequisites
 Make sure you have the following installed on your system:
-- **Node.js** (v16 or above recommended)
+- **Node.js** (v22-24)
 - **npm** (comes with Node.js)
 
 ## Getting Started
