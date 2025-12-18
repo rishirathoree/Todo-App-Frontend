@@ -2,7 +2,7 @@
 
 echo "Setting up React App"
 
-npm ci
+npm install
 
 echo "Done installing the dependencies"
 
